@@ -10,7 +10,18 @@ const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());  //for any cors error from the frontend 
+
+
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200,
+  credentials: true, // Allow cookies if needed
+
+}));
+
+app.options('*', cors()); //cors still not working so trying with adding cors globally in options
 
 
 const secretKey = 'your_secret_key'; // Secret key for JWT
@@ -30,7 +41,7 @@ db.connect((err) => {
 });
 
 // Register a new user
-app.post('/register', async (req, res) => {
+app.post('/register', cors(), async (req, res) => {
   const { username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -44,7 +55,7 @@ app.post('/register', async (req, res) => {
 
 
 // Authen ticate user and return JWT
-app.post('/login', (req, res) => {
+app.post('/login', cors(), (req, res) => {
   const { username, password } = req.body;
   const sql = 'SELECT * FROM users WHERE username = ?';
 
@@ -81,6 +92,6 @@ app.get('/protected', verifyToken,  (req, res) => {
   res.send('This is a protected route');
 });
 
-app.listen(3000, () =>  {
-  console.log('Server is running on port 3000');
+app.listen(3001, () =>  {
+  console.log('Server is listening on port 3001');
 });

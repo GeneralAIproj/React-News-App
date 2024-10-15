@@ -1,12 +1,10 @@
-
 "use client";
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { useRouter } from 'next/navigation';
 
 // Define the Article interface
-// Define the Article type based on the API response structure
 interface Article {
   source: { name: string };
   author: string | null;
@@ -17,20 +15,28 @@ interface Article {
   publishedAt: string;
 }
 
-
 const NewsComponent = () => {
   const [articles, setArticles] = useState<Article[]>([]);
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page
-  const [totalResults, setTotalResults] = useState(0); // Total number of articles
-  const [loading, setLoading] = useState(false); // Loading state
-  const pageSize = 20; // Number of articles per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const pageSize = 20;
+  const router = useRouter();
+
+  // Check for token and redirect to login if not authenticated
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login'); // Redirect to login if no token
+    } else {
+      fetchNews(currentPage);
+    }
+  }, [currentPage, router]);
 
   // API URL from environment variables
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const apiKey = process.env.NEXT_PUBLIC_API_KEY; // Store the API key in .env
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
-  
-  console.log(apiUrl);
   // Fetch news articles
   const fetchNews = async (page: number) => {
     setLoading(true);
@@ -43,20 +49,14 @@ const NewsComponent = () => {
           page: page,
         },
       });
-
       setArticles(response.data.articles);
-      setTotalResults(response.data.totalResults); // Total results returned by the API
+      setTotalResults(response.data.totalResults);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching news:', error);
       setLoading(false);
     }
   };
-
-  // Fetch articles when the component mounts or when the page changes
-  useEffect(() => {
-    fetchNews(currentPage);
-  }, [currentPage]);
 
   // Handle pagination
   const handleNextPage = () => {
@@ -109,48 +109,3 @@ const NewsComponent = () => {
 };
 
 export default NewsComponent;
-
-
-
-// const NewsComponent = () => {
-//   const [articles, setArticles] = useState<Article[]>([]);
-
-//   // API URL from environment variables
-//   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-//   const apiKey = process.env.API_KEY
-
-//   useEffect(() => {
-//     const fetchNews = async () => {
-//       try {
-//         const response = await axios.get(`${apiUrl}top-headlines`, {
-//           params: {
-//             country: 'us',
-//             apiKey: apiKey, //from enviornment variable can change to a more secure backend solution later time permitting 
-//           },
-//         });
-//         setArticles(response.data.articles);
-//       } catch (error) {
-//         console.error('Error fetching news:', error);
-//       }
-//     };
-
-//     fetchNews();
-//   }, [apiUrl]);
-
-//   return (
-//     <div>
-//       <h1>Top News</h1>
-//       {articles.map((article, index) => (
-//         <div key={index}>
-//           <h2>{article.title}</h2>
-//           <p>{article.description}</p>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default NewsComponent;
-
-
-
