@@ -1,5 +1,8 @@
 'use client';
 
+
+
+
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -34,7 +37,8 @@ export default function AuthPage() {
   };
 
   return (
-    <div>
+    <div className='login-container'>
+
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
@@ -44,6 +48,7 @@ export default function AuthPage() {
           onChange={(e) => setUsername(e.target.value)} 
           required 
         />
+        <br></br>
         <input 
           type="password" 
           name="password" 

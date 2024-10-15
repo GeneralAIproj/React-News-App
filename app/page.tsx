@@ -58,6 +58,14 @@ const NewsComponent = () => {
     }
   };
 
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove the JWT token
+    router.push('/login'); // Redirect to login page
+  };
+
+
+
   // Handle pagination
   const handleNextPage = () => {
     if (currentPage * pageSize < totalResults) {
@@ -73,7 +81,12 @@ const NewsComponent = () => {
 
   return (
     <div>
+
+<button onClick={handleLogout}>Logout</button>
       <h1>Top News Headlines</h1>
+
+
+
 
       {loading && <p>Loading...</p>}
 
