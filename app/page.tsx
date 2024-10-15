@@ -20,6 +20,7 @@ const NewsComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [loading, setLoading] = useState(false);
+
   const pageSize = 20;
   const router = useRouter();
 
@@ -37,6 +38,7 @@ const NewsComponent = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
+
   // Fetch news articles
   const fetchNews = async (page: number) => {
     setLoading(true);
@@ -52,6 +54,7 @@ const NewsComponent = () => {
       setArticles(response.data.articles);
       setTotalResults(response.data.totalResults);
       setLoading(false);
+      
     } catch (error) {
       console.error('Error fetching news:', error);
       setLoading(false);
@@ -59,8 +62,9 @@ const NewsComponent = () => {
   };
 
 
-  const handleLogout = () => {
+  const handleLogout = () =>  {
     localStorage.removeItem('token'); // Remove the JWT token
+
     router.push('/login'); // Redirect to login page
   };
 
@@ -82,37 +86,40 @@ const NewsComponent = () => {
   return (
     <div>
 
-<button onClick={handleLogout}>Logout</button>
-      <h1>Top News Headlines</h1>
+      <button className="logout-button"  onClick= {handleLogout}> Logout </button>
 
 
+      <div className= "headlines-container">
+            <h1> Top News Headlines</h1>
+      </div>
 
-
-      {loading && <p>Loading...</p>}
+      {loading && <p> Loading...</p>}
 
       {!loading && (
-        <div>
-          {articles.map((article, index) => (
-            <div key={index}>
-              <h2>{article.title}</h2>
-              <p>{article.description}</p>
-              <a href={article.url} target="_blank" rel="noopener noreferrer">
-                Read more
-              </a>
-            </div>
-          ))}
-        </div>
+       <div className= "article-container">
+       {articles.map((article, index) => (
+         <article key={index}>
+           <h2 className="article-header">{article.title}</h2>
+           <p className="article-description">{article.description}</p>
+           <a className="article-link"  href={article.url} target="_blank" rel= "noopener noreferrer">
+             Read more
+           </a>
+         </article>
+       ))}
+     </div>
       )}
 
       {/* Pagination controls */}
       <div>
-        <button onClick={handlePrevPage} disabled={currentPage === 1}>
+        <button onClick= {handlePrevPage} disabled={currentPage === 1}>
           Previous
+
         </button>
+
         <span>Page {currentPage}</span>
         <button
           onClick={handleNextPage}
-          disabled={currentPage * pageSize >= totalResults}
+          disabled= {currentPage * pageSize >= totalResults}
         >
           Next
         </button>

@@ -87,3 +87,89 @@ button:hover {
 p {
   margin-top: 20px;
 }
+
+.news-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f7f9fc;
+  min-height: 100vh;
+  text-align: center;
+}
+
+
+/* Article container */
+.article-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+
+/* Article card */
+article {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.article-header {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.article-description {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.article-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.article-link:hover {
+  text-decoration: underline;
+}
+
+.headlines-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #007bff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ccc;
+  display: inline-block;
+}
+
+
+
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.logout-button:hover {
+  background-color: #0056b3;
+}
