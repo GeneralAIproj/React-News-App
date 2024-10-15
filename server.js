@@ -24,7 +24,7 @@ app.use(cors({
 app.options('*', cors()); //cors still not working so trying with adding cors globally in options
 
 
-const secretKey = 'c2FjaGkvZGhoZWluaTlkZG93a3plZ29uZmRncmtyaW5ndGVy'; 
+const secretKey = process.env.JWT_SECRET; 
 
 // MySQL connection setup
 const db = mysql.createConnection({
