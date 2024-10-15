@@ -24,7 +24,7 @@ app.use(cors({
 app.options('*', cors()); //cors still not working so trying with adding cors globally in options
 
 
-const secretKey = 'your_secret_key'; // Secret key for JWT
+const secretKey = 'c2FjaGkvZGhoZWluaTlkZG93a3plZ29uZmRncmtyaW5ndGVy'; 
 
 // MySQL connection setup
 const db = mysql.createConnection({
@@ -87,9 +87,9 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// Example of a protected route
+
 app.get('/protected', verifyToken,  (req, res) => {
-  res.send('This is a protected route');
+  res.send('');
 });
 
 app.listen(3001, () =>  {
